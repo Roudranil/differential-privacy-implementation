@@ -1,0 +1,25 @@
+"":
+    Broadband:
+        Zipcodes:
+            max_ids: 1
+            ST:
+                type: string
+            "COUNTY_NAME":
+                type: string
+            "COUNTY_ID":
+                type: string
+            "POSTAL_CODE":
+                type: string
+                private_id: True
+            "BROADBAND_USAGE":
+                type: float
+                lower: 0.0
+                upper: 1.0
+            "ERROR_RANGE_MAE":
+                type: float
+            "ERROR_RANGE_95":
+                type: float
+            "MSD":
+                type: float
+
+
