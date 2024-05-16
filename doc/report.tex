@@ -1,0 +1,193 @@
+\documentclass[12pt]{scrartcl}
+% \usepackage[T1]{fontenc}
+% margins, indentation and text formatting 
+% \usepackage{cm}
+\usepackage[margin=1in]{geometry}
+\usepackage{indentfirst}
+\usepackage{hhline}
+\usepackage{soul}
+\usepackage{float}
+\usepackage[english]{babel}
+\usepackage[autostyle, english=american]{csquotes}
+\MakeOuterQuote{"}
+% enumerate environment
+\usepackage{enumitem}
+% math stuff
+\usepackage{amsthm, amsmath, amssymb}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{xfrac, nicefrac}
+\usepackage{physics} % this is for derivatives
+% tables
+\usepackage{multirow}
+% graphics
+\usepackage{xcolor}
+\usepackage{realboxes}
+\usepackage{tcolorbox}
+\usepackage{graphicx}
+\usepackage{subcaption}
+% links, references, affiliations
+\usepackage{hyperref}
+\usepackage[affil-it]{authblk}
+\usepackage[backend=biber, style=alphabetic, sorting=ynt]{biblatex}
+
+% \addbibresource{biblio.bib}
+
+%% colors
+%% inspired from catppuccin latte
+\definecolor{ctp-blue}{RGB}{30, 102, 245}
+\definecolor{ctp-flamingo}{RGB}{213, 87, 87}
+\definecolor{ctp-red}{RGB}{210, 15, 57}
+\definecolor{ctp-green}{RGB}{64, 160, 43}
+\definecolor{ctp-subtext1}{RGB}{92, 95, 119} % dark gray
+\definecolor{ctp-overlay1}{RGB}{140, 143, 161} % light gray
+\definecolor{ctp-mauve}{RGB}{136, 57, 239}
+\definecolor{ctp-teal}{RGB}{148, 226, 235} % from mocha
+\definecolor{ctp-sapphire}{RGB}{116, 199, 236} % from mocha
+
+%% code boxes
+\newcommand{\col}[2]{\textcolor{#1}{#2}} % macro to change the text color
+\newcommand{\code}[1]{\colorbox{ctp-overlay1}{\texttt{#1}}}
+\newcommand{\cmt}[1]{\textcolor{ctp-subtext1}{\texttt{#1}}}
+
+%% code highlighting
+% \newcommand{\fun}[1]{\Colorbox{ctp-overlay1}{\col{ctp-blue}{#1}}}
+% \newcommand{\var}[1]{\Colorbox{ctp-overlay1}{\col{ctp-flamingo}{#1}}}
+% \newcommand{\key}[1]{\Colorbox{ctp-overlay1}{\col{ctp-red}{#1}}}
+% \newcommand{\obj}[1]{\Colorbox{ctp-overlay1}{\col{ctp-green}{#1}}}
+% \newcommand{\str}[1]{\Colorbox{ctp-overlay1}{\col{ctp-mauve}{#1}}}
+
+%% math macros
+% \newcommand{\norm}[1]{\left\Vert{#1}\right\Vert}
+% \newcommand{\abs}[1]{\left|{#1}\right|}
+% \newcommand{\rank}{\mathrm{rank}}
+\renewcommand{\qedsymbol}{}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+
+\theoremstyle{definition}
+\newtheoremstyle{question}% <name>
+{3pt}% <Space above>
+{3pt}% <Space below>
+{\bfseries}% <Body font>
+{}% <Indent amount>
+{\bfseries}% <Theorem head font>
+{.}% <Punctuation after theorem head>
+{.5em}% <Space after theorem headi>
+{}% <Theorem head spec (can be left empty, meaning `normal')>
+\theoremstyle{question}
+\newtheorem{qs}{ }
+\newcommand{\subqs}[2]{\textbf{({#1}) {#2}}}
+
+%% document specific macros
+\newcommand{\varname}[1]{\textcolor{ctp-flamingo}{\mathsf{#1}}}
+\newcommand{\firstqs}[3]{
+    \textbf{#1}\\
+    -- The statement is \texttt{#2}.\\
+    \textit{Reason}: {#3}
+}
+
+%% underline
+\makeatletter
+\DeclareRobustCommand*\myul{%
+    \def\SOUL@everyspace{\underline{\space}\kern\z@}
+    \def\SOUL@everytoken{%
+        \setbox0=\hbox{\the\SOUL@token}%
+        \ifdim\dp0>\z@
+            \the\SOUL@token
+        \else
+            \underline{\the\SOUL@token}%
+        \fi}
+\SOUL@}
+\makeatother
+
+%% setting lengths
+\setlength{\itemsep}{0em}
+\setlength{\fboxsep}{2pt}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+\counterwithin{equation}{section}
+
+%% hyperref
+\hypersetup{
+    colorlinks=true,
+    linkcolor=ctp-blue,
+    filecolor=ctp-mauve,
+    urlcolor=ctp-blue,
+    citecolor=violet,
+    linktoc=all
+}
+
+%% Document details
+\subject{\vspace*{-4em}}
+\title{\LARGE{Data Quality, Privacy and Ethical AI}}
+\subtitle{\Large{Final take home project}}
+\author{\vspace*{-5em}}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c}
+		{Roudranil Das} \\
+		MDS202227       \\
+		\texttt{\href{mailto:roudranil@cmi.ac.in}{\myul{roudranil@cmi.ac.in}}}
+	\end{tabular}
+\end{table}
+% \vspace*{1.5em}
+\hrule
+\vspace*{0.8mm}
+\hrule
+
+\tableofcontents
+
+\section{Objective}
+
+Implement differential privacy on broadband usage Data
+
+\section{Exploratory data analysis}
+
+\subsection{Dataset information}
+
+According the data documentation, both datasets contain the following columns:
+\begin{itemize}
+    \item \texttt{ST}: is the 2 letter abbreviation of states in the United States
+    \item \texttt{COUNTY ID}: 4 to 5 digit code used to represent the county (last 3 digits) and the state (first digit or first 2 digits)
+    \item \texttt{BROADBAND AVAILABILITY PER FCC}: percent of people per county with access to fixed terrestrial broadband at speeds of 25 Mbps/3 Mbps
+    \item \texttt{BROADBAND USAGE}: percent of people per county that use the internet at broadband speeds based on the methodology explained above
+\end{itemize}
+
+\subsection{Dataset cleaning}
+
+First of all, we replace all the spaces in the column names with underscores, in order to make it easy to write SQL queries with the column names.
+
+Following this, we observe that the \texttt{BROADBAND AVAILABILITY PER FCC} and \texttt{BROADBAND USAGE} columns are of string datatype, where they should be float. This indicates that there are missing or anomalous data. Upon closer examination, we found that the missing data was encoded as \texttt{' -   '}. This was replaced by None. Any other form of imputation would be unsound, as broadband usage depends on many local factors. For the rest, the trailing and leading spaces were removed, and the data type was changed to float. 
+
+This was done for both the datasets and for both the columns.
+
+\section{Comparison of results after applying differential privacy}
+
+Here, we try to find the average broadband usage for each state. To do that we group by the state column and take the average of the broadband usage column. The MAE and RMSE between the differentially private results and the original results are given below.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c|c|c|c}
+        \hline
+        \textbf{Dataset} & \(\epsilon\) & \textbf{Mean Absolute Error} & \textbf{Root Mean Squared Error} \\ \hline
+        \multirow{2}{*}{\textbf{November2019}} & \textbf{0.1} & 0.4783 & 1.6577 \\ \cline{2-4} 
+                                               & \textbf{0.2} & 0.1746 & 0.4390 \\ \hline
+        \multirow{2}{*}{\textbf{October2020}}  & \textbf{0.1} & 0.2171 & 0.4130 \\ \cline{2-4} 
+                                               & \textbf{0.2} & 0.2298 & 0.6386 \\ \hline
+        \end{tabular}
+    \caption{Comparison of results for differential privacy}
+    \label{tab:my-table}
+    \end{table}
+
+One point to note is that the differentially private results sometimes contain a negative value for broadband usage. 
+
+We did not use the zipcode level dataset, as the data there is already made differentially private.
+
+\end{document}
