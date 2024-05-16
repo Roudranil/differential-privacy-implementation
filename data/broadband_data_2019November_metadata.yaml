@@ -1,0 +1,19 @@
+"":
+    Broadband:
+        November2019:
+            max_ids: 1
+            row_privacy: True
+            ST:
+                type: string
+            COUNTY_ID:
+                type: int
+            COUNTY_NAME: 
+                type: string
+            BROADBAND_AVAILIBILITY_PER_FCC:
+                type: float
+                lower: 0.0
+                upper: 1.0
+            BROADBAND_USAGE:
+                type: float
+                lower: 0.0
+                upper: 1.0
