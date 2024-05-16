@@ -168,6 +168,10 @@ Following this, we observe that the \texttt{BROADBAND AVAILABILITY PER FCC} and 
 
 This was done for both the datasets and for both the columns.
 
+\subsection{Creation of the dataset metadata}
+
+In order to properly use smartnoise smartnoise, we had to create a yaml file with the table metadata. The metadata contains information about the table name, the column names, the column data types, lower and upper bound of the balues in the columns (if applicable) and if row privacy is required. Row privacy was required for both of the datasets.
+
 \section{Comparison of results after applying differential privacy}
 
 Here, we try to find the average broadband usage for each state. To do that we group by the state column and take the average of the broadband usage column. The MAE and RMSE between the differentially private results and the original results are given below.
